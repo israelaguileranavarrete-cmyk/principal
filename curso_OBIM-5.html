@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Curso profesional: Fundamentos y Aplicaciones Avanzadas en Tecnología de Materiales">
+    <title>Curso: [Nombre del Curso] | Dr. [Tu Apellido]</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIABLES (Mismas que el sitio principal) ===== */
+        :root {
+            --primary: #1e3a5f;
+            --primary-dark: #152a45;
+            --secondary: #2c7a7b;
+            --accent: #3182ce;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --dark: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4 { font-family: 'Merriweather', serif; color: var(--primary); line-height: 1.3; }
+        h1 { font-size: 2.5rem; } h2 { font-size: 2rem; } h3 { font-size: 1.5rem; }
+        a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+        a:hover { color: var(--primary); text-decoration: underline; }
+        img { max-width: 100%; height: auto; border-radius: var(--radius); }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .btn { display: inline-block; background: var(--primary); color: var(--white); padding: 0.75rem 1.5rem; border-radius: var(--radius); font-weight: 500; border: none; cursor: pointer; transition: var(--transition); text-align: center; }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); text-decoration: none; color: var(--white); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--white); }
+        .section { padding: 4rem 0; }
+        .section-alt { background-color: var(--white); }
+        .text-center { text-align: center; }
+        .hidden { display: none; }
+
+        /* ===== HEADER ===== */
+        header { background: var(--white); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+        .logo { font-family: 'Merriweather', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .logo span { color: var(--secondary); }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { font-weight: 500; color: var(--dark); padding: 0.5rem 0; position: relative; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: var(--transition); }
+        nav a:hover::after { width: 100%; }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+        /* ===== COURSE HERO ===== */
+        .course-hero {
+            background: linear-gradient(135deg, var(--white) 0%, #e0f2fe 100%);
+            padding: 4rem 0;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .course-badges { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+        .badge { background: var(--white); border: 2px solid var(--secondary); color: var(--primary); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+        .course-meta { color: var(--gray); margin-bottom: 2rem; font-size: 1.05rem; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        /* ===== MÓDULOS ===== */
+        .module-grid { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+        .module-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .module-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e2e8f0;
+            user-select: none;
+        }
+        .module-header:hover { background: #f1f5f9; }
+        .module-title { font-size: 1.25rem; font-weight: 600; color: var(--primary); margin: 0; display: flex; align-items: center; gap: 0.75rem; }
+        .module-icon { width: 36px; height: 36px; background: var(--secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+        .module-toggle { transition: var(--transition); color: var(--gray); }
+        .module-card.active .module-toggle { transform: rotate(180deg); }
+
+        .module-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .module-content {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.5rem;
+        }
+
+        .module-image {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: var(--radius);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            border: 2px solid var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .module-details h4 { color: var(--primary-dark); margin-bottom: 0.75rem; font-size: 1.1rem; }
+        .topic-list { list-style: none; margin-bottom: 1.5rem; }
+        .topic-list li { padding: 0.4rem 0; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+        .topic-list li:last-child { border-bottom: none; }
+
+        .downloads { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .download-btn.pdf { background: #dc2626; color: white; }
+        .download-btn.pdf:hover { background: #b91c1c; }
+        .download-btn.code { background: #334155; color: white; }
+        .download-btn.code:hover { background: #1e293b; }
+        .download-btn i { font-size: 1rem; }
+
+        .completion-check { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; }
+        .completion-check input { width: 18px; height: 18px; cursor: pointer; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .module-content { grid-template-columns: 1fr; }
+            .module-image { min-height: 160px; }
+        }
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            nav ul { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: var(--white); flex-direction: column; padding: 2rem; transition: var(--transition); box-shadow: var(--shadow-lg); }
+            nav ul.active { left: 0; }
+            h1 { font-size: 2rem; } h2 { font-size: 1.75rem; }
+        }
+
+        /* ===== FOOTER ===== */
+        footer { background: var(--white); padding: 3rem 0 1.5rem; margin-top: 3rem; border-top: 1px solid #e2e8f0; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-section h4 { color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a { color: var(--gray); }
+        .footer-links a:hover { color: var(--accent); text-decoration: none; }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1rem; }
+        .social-links a { width: 40px; height: 40px; border-radius: 50%; background: var(--light); display: flex; align-items: center; justify-content: center; color: var(--primary); border: 1px solid #e2e8f0; transition: var(--transition); }
+        .social-links a:hover { background: var(--accent); color: white; transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
+        .copyright { text-align: center; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; color: var(--gray); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Dr. <span>Israel Aguilera Navarrete</span></a>
+            <div class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></div>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="#" class="active">Curso</a></li>
+                    <li><a href="index.html#cursos">Cursos</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- COURSE HERO -->
+    <section class="course-hero">
+        <div class="container">
+            <h1>Curso: Investigación de operaciones</h1>
+            <p class="course-meta">Instructor: Dr. Israel Aguilera Navarrete • Duración: 60 horas • Nivel: Intermedio/Avanzado</p>
+            
+            <div class="course-badges">
+                <span class="badge"><i class="fas fa-certificate"></i> Certificado al finalizar</span>
+                <span class="badge"><i class="fas fa-laptop-code"></i> Código abierto incluido</span>
+                <span class="badge"><i class="fas fa-book-open"></i> 4 Módulos</span>
+            </div>
+
+            <p style="max-width: 700px; margin: 0 auto 2rem; color: var(--gray);">
+                Curso diseñado para apoyar a ingenieros a utilizar las diferentes técnicas, algorítmicas y modelos como herramientas para resolver problemas de programación lineal, dinámica y de proyectos. En particular: 1) Resolver problemas de modelos lineales aplicados en ingeniería para la toma de decisiones de acuerdo a la interpretación de resultados utilizando matrices y sistemas de ecuaciones. 2) Aplicar los métodos Gráfico, simplex y dual programación lineal para la optimización de recursos y entender las variables y restricciones que afectan el modelo.3) Identificar y formular problemas de la teoría de colas en situaciones del entorno y aplicar la teoría de colas para analizar su desempeño y proponer mejoras.4) Aplica las técnicas de optimización de redes para la solución de problemas de la vida real.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#modulo-1" class="btn">Comenzar Curso</a>
+                <a href="#" class="btn btn-outline"><i class="fas fa-download"></i> Syllabus Completo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="section section-alt" id="content">
+        <div class="container">
+            <h2 class="text-center">Contenido por Módulos</h2>
+            <p class="text-center" style="color: var(--gray); margin-bottom: 2rem;">Haz clic en cada módulo para desplegar el contenido, imágenes y materiales descargables.</p>
+
+            <div class="module-grid">
+                <!-- MÓDULO 1 -->
+                <div class="module-card" id="modulo-1">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">01</span>
+                            Fundamentos de investigación de operaciones
+                        </h3>
+                        <i class="fas fa-chevron-down module-toggle"></i>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-content">
+                            <div class="module-image" title="Reemplaza con tu imagen: <img src='ruta.jpg' alt='...'>">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="module-details">
+                                <h4>📚 Temas Cubiertos</h4>
+                                <ul class="topic-list">
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Orígenes de la investigación de operaciones.</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Algoritmos y paquetes de investigación de operaciones.</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Definición del problema y recolección de datos.</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Formulación de un modelo matemático.</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Obtención de soluciones a partir del modelo.</li>
+                                </ul>
+                                <div class="downloads">
+                                    <a href="mod01-teoria.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-file-pdf"></i> Material PDF (4.2 MB)
+                                    </a>
+
+                                    <a href="https://github.com/tuusuario/curso-codigo" class="download-btn code" target="_blank">
+                                        <i class="fab fa-github"></i> Código Base (GitHub)
+                                    </a>
+                                    <a href="mod01-notas.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-sticky-note"></i> Guía Rápida
+                                    </a>
+                                </div>
+                                <div class="downloads">
+                                    <a href="mod01-teoria.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-file-pdf"></i> Material PDF (4.2 MB)
+                                    </a>
+
+                                    <a href="https://github.com/tuusuario/curso-codigo" class="download-btn code" target="_blank">
+                                        <i class="fab fa-github"></i> Código Base (GitHub)
+                                    </a>
+                                </div>
+                                <div class="downloads">
+                                    <a href="mod01-teoria.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-file-pdf"></i> Material PDF (4.2 MB)
+                                    </a>
+
+                                    <a href="https://github.com/tuusuario/curso-codigo" class="download-btn code" target="_blank">
+                                        <i class="fab fa-github"></i> Código Base (GitHub)
+                                    </a>
+                                </div>
+                                <div class="downloads">
+                                    <a href="mod01-teoria.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-file-pdf"></i> Material PDF (4.2 MB)
+                                    </a>
+
+                                    <a href="https://github.com/tuusuario/curso-codigo" class="download-btn code" target="_blank">
+                                        <i class="fab fa-github"></i> Código Base (GitHub)
+                                    </a>
+                                </div>
+                                <label class="completion-check">
+                                    <input type="checkbox" class="track-completion"> Marcar como completado
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 2 -->
+                <div class="module-card" id="modulo-2">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">02</span>
+                            Modelos de programación lineal
+                        </h3>
+                        <i class="fas fa-chevron-down module-toggle"></i>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-content">
+                            <div class="module-image" title="Reemplaza con tu imagen">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="module-details">
+                                <h4>🔬 Temas Cubiertos</h4>
+                                <ul class="topic-list">
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Modelo de programación lineal</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Supuestos de programación lineal</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Construcción de modelos de programación lineal</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Fundamentos del método simplex</li>
+                                </ul>
+                                <div class="downloads">
+                                    <a href="mod02-metodologia.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-file-pdf"></i> Protocolos PDF (3.8 MB)
+                                    </a>
+                                    <a href="mod02-scripts.zip" class="download-btn code" target="_blank">
+                                        <i class="fas fa-file-archive"></i> Scripts de Calibración (.zip)
+                                    </a>
+                                    <a href="https://github.com/tuusuario/curso-codigo/tree/main/mod02" class="download-btn code" target="_blank">
+                                        <i class="fab fa-python"></i> Ejemplos Python
+                                    </a>
+                                </div>
+                                <label class="completion-check">
+                                    <input type="checkbox" class="track-completion"> Marcar como completado
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 3 -->
+                <div class="module-card" id="modulo-3">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">03</span>
+                            Administración de proyectos e inventarios
+                        </h3>
+                        <i class="fas fa-chevron-down module-toggle"></i>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-content">
+                            <div class="module-image" title="Reemplaza con tu imagen">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="module-details">
+                                <h4>📊 Temas Cubiertos</h4>
+                                <ul class="topic-list">
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Modelo general de inventario</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Modelos estáticos de cantidad de pedido económico</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Modelos dinámicos de cantidad de pedido económico</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Modelo determinístico con revisión continua y periódica</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Alcance y definición de modelo de redes</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Algoritmo de árbol de mínima expansión</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Representación en forma de red</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Cálculo del método de la ruta crítica (CPM)</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Formulación de programación lineal de CPM</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Redes PERT</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Aplicaciones de la ruta más corta</li>
+                                </ul>
+                                <div class="downloads">
+                                    <a href="mod03-analisis.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-file-pdf"></i> Guía de Análisis (5.1 MB)
+                                    </a>
+                                    <a href="mod03-notebooks.zip" class="download-btn code" target="_blank">
+                                        <i class="fas fa-laptop-code"></i> Jupyter Notebooks
+                                    </a>
+                                    <a href="https://colab.research.google.com/github/tuusuario/..." class="download-btn code" target="_blank">
+                                        <i class="fab fa-google"></i> Abrir en Colab
+                                    </a>
+                                </div>
+                                <label class="completion-check">
+                                    <input type="checkbox" class="track-completion"> Marcar como completado
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 4 -->
+                <div class="module-card" id="modulo-4">
+                    <div class="module-header">
+                        <h3 class="module-title">
+                            <span class="module-icon">04</span>
+                            Análisis de procesos de líneas de espera
+                        </h3>
+                        <i class="fas fa-chevron-down module-toggle"></i>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-content">
+                            <div class="module-image" title="Reemplaza con tu imagen">
+                                <i class="fas fa-industry"></i>
+                            </div>
+                            <div class="module-details">
+                                <h4>🏭 Temas Cubiertos</h4>
+                                <ul class="topic-list">
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Repaso de probabilidad básica</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Cadenas de Markov</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Clasificación de los estados de una cadena de Markov</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Sistemas de colas</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Elementos de un modelo de colas</li>
+                                    <li><i class="fas fa-check-circle" style="color:var(--secondary)"></i> Simulación de Monte Carlo</li>
+                                </ul>
+                                <div class="downloads">
+                                    <a href="mod04-caso-estudio.pdf" class="download-btn pdf" target="_blank">
+                                        <i class="fas fa-file-pdf"></i> Caso Práctico PDF (2.9 MB)
+                                    </a>
+                                    <a href="mod04-simulador.zip" class="download-btn code" target="_blank">
+                                        <i class="fas fa-play-circle"></i> Simulador Interactivo
+                                    </a>
+                                    <a href="mod04-dataset.csv" class="download-btn code" target="_blank">
+                                        <i class="fas fa-database"></i> Dataset Abierto
+                                    </a>
+                                </div>
+                                <label class="completion-check">
+                                    <input type="checkbox" class="track-completion"> Marcar como completado
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3" style="margin-top: 3rem;">
+                <p style="color: var(--gray); margin-bottom: 1rem;">
+                    <i class="fas fa-info-circle"></i> ¿Dudas técnicas? Contacta al instructor o únete al foro de discusión del curso.
+                </p>
+                <a href="index.html#contacto" class="btn btn-outline">Contactar Instructor</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Dr. Israel Aguilera Navarrete</h4>
+                    <p style="color:var(--gray); line-height:1.6;">
+                        Ciencia aplicada a la industria. Todos los materiales están licenciados bajo Creative Commons BY-NC-SA 4.0 salvo indicación contraria.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#modulo-1">Módulo 1</a></li>
+                        <li><a href="#modulo-2">Módulo 2</a></li>
+                        <li><a href="https://github.com/tuusuario" target="_blank">Repositorio GitHub</a></li>
+                        <li><a href="#">Soporte Técnico</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes y Académico</h4>
+                    <div class="social-links">
+                        <a href="https://orcid.org/0000-0002-8860-4938" title="ORCID"><i class="fab fa-orcid"></i></a>
+                        <a href="https://www.researchgate.net/profile/Israel-Navarrete-2" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
+                        <a href="https://www.youtube.com/@DiscusionyResultados-kw2zd" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="year"></span> Dr. [Tu Nombre]. Uso académico y educativo permitido con atribución.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== MENÚ MÓVIL =====
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileToggle.innerHTML = navMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // ===== ACORDEÓN DE MÓDULOS =====
+        document.querySelectorAll('.module-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                const body = header.nextElementSibling;
+                const isActive = card.classList.contains('active');
+
+                // Cerrar todos los demás (comportamiento acordeón)
+                document.querySelectorAll('.module-card').forEach(c => {
+                    c.classList.remove('active');
+                    c.querySelector('.module-body').style.maxHeight = null;
+                });
+
+                if (!isActive) {
+                    card.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            });
+        });
+
+        // ===== SEGUIMIENTO DE COMPLETADO (LocalStorage) =====
+        const checkboxes = document.querySelectorAll('.track-completion');
+        checkboxes.forEach(cb => {
+            const moduleId = cb.closest('.module-card').id;
+            const saved = localStorage.getItem(`course_${moduleId}_done`);
+            if (saved === 'true') cb.checked = true;
+
+            cb.addEventListener('change', () => {
+                localStorage.setItem(`course_${moduleId}_done`, cb.checked);
+                if (cb.checked) {
+                    cb.closest('.module-card').style.borderColor = 'var(--secondary)';
+                } else {
+                    cb.closest('.module-card').style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+
+        // ===== AÑO DINÁMICO =====
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // ===== ANIMACIÓN SUAVE AL CARGAR =====
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.module-card').forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(15px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, i * 100);
+            });
+        });
+    </script>
+</body>
+</html>
