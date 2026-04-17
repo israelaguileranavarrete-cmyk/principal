@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial del proyecto de investigación básica. Seguimiento por etapas del método científico: observación, hipótesis, experimentación y análisis.">
+    <title>Proyecto: [Nombre] | Método Científico</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIABLES & BASE (Consistentes con tu sitio principal) ===== */
+        :root {
+            --primary: #1e3a5f; --primary-dark: #152a45; --secondary: #2c7a7b;
+            --accent: #3182ce; --light: #f8fafc; --gray: #64748b; --dark: #0f172a;
+            --white: #ffffff; --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1); --radius: 8px;
+            --transition: all 0.3s ease;
+            --pdf: #dc2626; --pub: #2563eb; --graphic: #8b5cf6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); scroll-behavior: smooth; }
+        h1,h2,h3,h4 { font-family: 'Merriweather', serif; color: var(--primary); line-height: 1.3; }
+        a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+        a:hover { color: var(--primary); text-decoration: underline; }
+        img { max-width: 100%; height: auto; border-radius: var(--radius); }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .btn { display: inline-block; background: var(--primary); color: var(--white); padding: 0.75rem 1.5rem; border-radius: var(--radius); font-weight: 500; border: none; cursor: pointer; transition: var(--transition); }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); color: var(--white); text-decoration: none; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--white); }
+        .section { padding: 4rem 0; } .section-alt { background: var(--white); }
+        .text-center { text-align: center; } .hidden { display: none; }
+
+        /* ===== HEADER ===== */
+        header { background: var(--white); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+        .logo { font-family: 'Merriweather', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .logo span { color: var(--secondary); }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { font-weight: 500; color: var(--dark); padding: 0.5rem 0; position: relative; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: var(--transition); }
+        nav a:hover::after { width: 100%; }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+        /* ===== HERO ===== */
+        .project-hero { background: linear-gradient(135deg, var(--white) 0%, #e0f2fe 100%); padding: 4rem 0; text-align: center; border-bottom: 1px solid #e2e8f0; }
+        .project-hero h1 { font-size: 2.6rem; margin-bottom: 0.5rem; }
+        .project-subtitle { color: var(--gray); font-size: 1.1rem; margin-bottom: 1.5rem; }
+        .hero-meta { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .badge { background: var(--white); border: 2px solid var(--secondary); color: var(--primary); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+        .hero-desc { max-width: 750px; margin: 0 auto; color: #334155; line-height: 1.7; }
+
+        /* ===== STEP NAVIGATION ===== */
+        .step-nav { display: flex; justify-content: space-between; align-items: center; margin: 3rem 0 3.5rem; position: relative; padding: 0 1rem; }
+        .step-nav::before { content: ''; position: absolute; top: 50%; left: 30px; right: 30px; height: 3px; background: #e2e8f0; transform: translateY(-50%); z-index: 0; }
+        .step-dot { width: 40px; height: 40px; border-radius: 50%; background: var(--white); border: 2px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--gray); z-index: 1; position: relative; cursor: pointer; transition: var(--transition); }
+        .step-dot:hover { transform: scale(1.1); border-color: var(--accent); }
+        .step-dot.active { border-color: var(--secondary); background: var(--secondary); color: white; box-shadow: 0 0 0 4px rgba(44,122,123,0.15); }
+        .step-label { position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); font-size: 0.72rem; color: var(--gray); white-space: nowrap; font-weight: 500; text-align: center; width: 90px; }
+
+        /* ===== STAGES ACCORDION ===== */
+        .stage-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid #e2e8f0; margin-bottom: 1.5rem; overflow: hidden; transition: var(--transition); }
+        .stage-card.active { border-color: var(--secondary); box-shadow: var(--shadow-lg); }
+        .stage-header { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-bottom: 1px solid #e2e8f0; user-select: none; }
+        .stage-header:hover { background: #eef2f6; }
+        .stage-title { font-size: 1.2rem; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 0.75rem; margin: 0; }
+        .stage-icon { width: 32px; height: 32px; background: var(--secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+        .stage-toggle { transition: var(--transition); color: var(--gray); }
+        .stage-card.active .stage-toggle { transform: rotate(180deg); color: var(--secondary); }
+
+        .stage-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
+        .stage-content { padding: 1.5rem; display: grid; grid-template-columns: 1fr 1.4fr; gap: 2rem; align-items: start; }
+        
+        .stage-image { background: linear-gradient(135deg, var(--secondary), var(--accent)); border-radius: var(--radius); min-height: 220px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: var(--shadow); border: 2px solid white; overflow: hidden; position: relative; }
+        .stage-image img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+        .image-caption { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(15, 23, 42, 0.7); color: white; padding: 0.5rem; font-size: 0.8rem; text-align: center; }
+
+        .stage-desc { color: #334155; margin-bottom: 1.25rem; line-height: 1.7; }
+        .stage-details { list-style: none; margin-bottom: 1.5rem; }
+        .stage-details li { padding: 0.5rem 0; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: baseline; gap: 0.6rem; font-size: 0.95rem; }
+        .stage-details li:last-child { border-bottom: none; }
+        .detail-icon { color: var(--secondary); flex-shrink: 0; }
+
+        .resource-block { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #e2e8f0; }
+        .resource-label { font-size: 0.85rem; font-weight: 600; color: var(--gray); margin-bottom: 0.6rem; display: block; }
+        .res-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; margin: 0.2rem; border-radius: var(--radius); font-size: 0.88rem; font-weight: 500; transition: var(--transition); text-decoration: none; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .res-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); text-decoration: none; }
+        .res-btn.pdf { background: var(--pdf); } .res-btn.pdf:hover { background: #b91c1c; }
+        .res-btn.pub { background: var(--pub); } .res-btn.pub:hover { background: #1d4ed8; }
+        .res-btn.graphic { background: var(--graphic); } .res-btn.graphic:hover { background: #7c3aed; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .stage-content { grid-template-columns: 1fr; }
+            .stage-image { min-height: 180px; }
+        }
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            nav ul { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: var(--white); flex-direction: column; padding: 2rem; transition: var(--transition); box-shadow: var(--shadow-lg); }
+            nav ul.active { left: 0; }
+            h1 { font-size: 2rem; }
+            .step-nav { flex-wrap: wrap; gap: 2.5rem; justify-content: center; padding: 0; }
+            .step-nav::before { display: none; }
+            .step-dot { width: auto; height: auto; padding: 0.5rem 0.8rem; border-radius: 50px; font-size: 0.8rem; }
+            .step-label { position: static; transform: none; margin-top: 0.3rem; display: block; }
+            .res-btn { width: 100%; justify-content: center; }
+        }
+
+        /* ===== FOOTER ===== */
+        footer { background: var(--white); padding: 3rem 0 1.5rem; margin-top: 3rem; border-top: 1px solid #e2e8f0; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-section h4 { color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 0.5rem; margin-bottom: 1rem; font-size: 1.1rem; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a { color: var(--gray); }
+        .footer-links a:hover { color: var(--accent); text-decoration: none; }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1rem; }
+        .social-links a { width: 40px; height: 40px; border-radius: 50%; background: var(--light); display: flex; align-items: center; justify-content: center; color: var(--primary); border: 1px solid #e2e8f0; transition: var(--transition); }
+        .social-links a:hover { background: var(--accent); color: white; transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
+        .copyright { text-align: center; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; color: var(--gray); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Dr. <span>Aguilera</span></a>
+            <div class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></div>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="index.html#proyectos">Proyectos</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="project-hero">
+        <div class="container">
+            <h1>[Nombre del Proyecto de Investigación Básica]</h1>
+            <p class="project-subtitle">Área: Materiales Metálicos • Pruebas No Destructivas • Ciencia de Datos</p>
+            
+            <div class="hero-meta">
+                <span class="badge"><i class="fas fa-calendar-alt"></i> 2023 - 2025</span>
+                <span class="badge"><i class="fas fa-university"></i> [Institución]</span>
+                <span class="badge"><i class="fas fa-coins"></i> [Entidad Financiadora]</span>
+            </div>
+            <p class="hero-desc">
+                Este proyecto sigue rigurosamente el método científico para investigar el comportamiento de propagación de ondas ultrasónicas en aleaciones de nueva generación. Cada etapa documenta el proceso, desde la observación inicial hasta la publicación de hallazgos y materiales visuales de síntesis.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="text-center">Etapas del Método Científico</h2>
+            <p class="text-center" style="color:var(--gray); margin-bottom: 1rem;">Haz clic en cualquier etapa o usa la línea de progreso para navegar por el proceso investigativo.</p>
+
+            <!-- STEP INDICATOR -->
+            <div class="step-nav">
+                <div class="step-dot active" data-target="observacion"><i class="fas fa-eye"></i><div class="step-label">Observación</div></div>
+                <div class="step-dot" data-target="problema"><i class="fas fa-question"></i><div class="step-label">Problema</div></div>
+                <div class="step-dot" data-target="hipotesis"><i class="fas fa-lightbulb"></i><div class="step-label">Hipótesis</div></div>
+                <div class="step-dot" data-target="experimentacion"><i class="fas fa-flask"></i><div class="step-label">Experimentación</div></div>
+                <div class="step-dot" data-target="analisis"><i class="fas fa-chart-bar"></i><div class="step-label">Análisis</div></div>
+                <div class="step-dot" data-target="conclusion"><i class="fas fa-check-double"></i><div class="step-label">Conclusión</div></div>
+            </div>
+
+            <!-- ETAPA 1: OBSERVACIÓN -->
+            <article class="stage-card active" id="observacion">
+                <div class="stage-header" onclick="openStage('observacion')">
+                    <h3 class="stage-title"><span class="stage-icon">1</span> Observación (Identificar un fenómeno)</h3>
+                    <i class="fas fa-chevron-down stage-toggle"></i>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-content">
+                      <div class="stage-image">
+                        <img src="images/P25.jpg" alt="Micrografía inicial del fenómeno observado" style="max-width: 100%; height: auto;">
+                        <div class="image-caption">Imagen: Micrografía inicial del fenómeno observado</div>
+                      </div>
+                        <div>
+                            <p class="stage-desc">Registro sistemático de anomalías en la atenuación de señales ultrasónicas durante inspecciones de rutina en componentes de titanio. Documentación fotográfica y de parámetros ambientales.</p>
+                            <ul class="stage-details">
+                                <li><i class="fas fa-camera detail-icon"></i> Captura de 120 trazos A-scan con comportamiento atípico</li>
+                                <li><i class="fas fa-book-open detail-icon"></i> Revisión de 45 artículos previos sobre fenómenos similares</li>
+                                <li><i class="fas fa-clipboard detail-icon"></i> Bitácora de condiciones de laboratorio y calibración</li>
+                            </ul>
+                            <div class="resource-block">
+                                <span class="resource-label"><i class="fas fa-download"></i> Descargas y Publicaciones</span>
+                                <a href="docs/obs-notas-campo.pdf" class="res-btn pdf"><i class="fas fa-file-pdf"></i> Notas de Campo (PDF)</a>
+                                <a href="https://doi.org/10.xxxx/obs-review" class="res-btn pub" target="_blank"><i class="fas fa-external-link-alt"></i> Revisión Sistemática</a>
+                                <a href="docs/obs-abstract-grafico.png" class="res-btn graphic" target="_blank"><i class="fas fa-image"></i> Abstract Gráfico</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ETAPA 2: PLANTEAMIENTO DEL PROBLEMA -->
+            <article class="stage-card" id="problema">
+                <div class="stage-header" onclick="openStage('problema')">
+                    <h3 class="stage-title"><span class="stage-icon">2</span> Planteamiento del Problema (Formular preguntas)</h3>
+                    <i class="fas fa-chevron-down stage-toggle"></i>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-content">
+                        <div class="stage-image">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="image-caption">Diagrama de preguntas de investigación</div>
+                        </div>
+                        <div>
+                            <p class="stage-desc">Definición de variables independientes y dependientes. Formulación de preguntas clave que guiarán el diseño experimental y limitarán el alcance del estudio para mantener la reproducibilidad.</p>
+                            <ul class="stage-details">
+                                <li><i class="fas fa-bullseye detail-icon"></i> Pregunta principal: ¿La microestructura bifásica altera la velocidad de fase?</li>
+                                <li><i class="fas fa-arrows-alt detail-icon"></i> Alcance: Aleaciones Ti-6Al-4V tratadas térmicamente</li>
+                                <li><i class="fas fa-filter detail-icon"></i> Criterios de exclusión y control de ruido instrumental</li>
+                            </ul>
+                            <div class="resource-block">
+                                <span class="resource-label"><i class="fas fa-download"></i> Descargas y Publicaciones</span>
+                                <a href="docs/prob-marco-teorico.pdf" class="res-btn pdf"><i class="fas fa-file-pdf"></i> Marco Teórico (PDF)</a>
+                                <a href="https://doi.org/10.xxxx/prob-perspective" class="res-btn pub" target="_blank"><i class="fas fa-external-link-alt"></i> Artículo de Perspectiva</a>
+                                <a href="docs/prob-esquema.png" class="res-btn graphic" target="_blank"><i class="fas fa-sitemap"></i> Abstract Gráfico</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ETAPA 3: FORMULACIÓN DE HIPÓTESIS -->
+            <article class="stage-card" id="hipotesis">
+                <div class="stage-header" onclick="openStage('hipotesis')">
+                    <h3 class="stage-title"><span class="stage-icon">3</span> Formulación de la Hipótesis (Explicación provisional)</h3>
+                    <i class="fas fa-chevron-down stage-toggle"></i>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-content">
+                        <div class="stage-image">
+                            <i class="fas fa-lightbulb"></i>
+                            <div class="image-caption">Modelo conceptual de la hipótesis</div>
+                        </div>
+                        <div>
+                            <p class="stage-desc">Propuesta de relación causal entre el tamaño de grano β y la dispersión de modos de onda guiada. Se establecen predicciones cuantitativas verificables mediante simulación FEM y ensayos controlados.</p>
+                            <ul class="stage-details">
+                                <li><i class="fas fa-project-diagram detail-icon"></i> Hipótesis nula (H₀): No existe correlación significativa</li>
+                                <li><i class="fas fa-arrow-up detail-icon"></i> Hipótesis alternativa (H₁): La dispersión aumenta proporcionalmente al volumen de fase β</li>
+                                <li><i class="fas fa-calculator detail-icon"></i> Parámetros umbral: Δv > 15 m/s, p < 0.05</li>
+                            </ul>
+                            <div class="resource-block">
+                                <span class="resource-label"><i class="fas fa-download"></i> Descargas y Publicaciones</span>
+                                <a href="docs/hip-doc-propuesta.pdf" class="res-btn pdf"><i class="fas fa-file-pdf"></i> Documento de Hipótesis</a>
+                                <a href="https://arxiv.org/abs/2401.xxxxx" class="res-btn pub" target="_blank"><i class="fas fa-external-link-alt"></i> Preprint</a>
+                                <a href="docs/hip-modelo.png" class="res-btn graphic" target="_blank"><i class="fas fa-cube"></i> Abstract Gráfico</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ETAPA 4: EXPERIMENTACIÓN -->
+            <article class="stage-card" id="experimentacion">
+                <div class="stage-header" onclick="openStage('experimentacion')">
+                    <h3 class="stage-title"><span class="stage-icon">4</span> Experimentación (Probar la hipótesis)</h3>
+                    <i class="fas fa-chevron-down stage-toggle"></i>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-content">
+                        <div class="stage-image">
+                            <i class="fas fa-flask"></i>
+                            <div class="image-caption">Configuración experimental y probetas</div>
+                        </div>
+                        <div>
+                            <p class="stage-desc">Diseño de experimentos (DOE) con matriz factorial 2³. Preparación de 36 probetas, caracterización EBSD, adquisición de datos ultrasónicos con arreglos en fase (PAUT) y control de temperatura ±0.5°C.</p>
+                            <ul class="stage-details">
+                                <li><i class="fas fa-cogs detail-icon"></i> Equipo: Olympus Omniscan MX2 + sonda 5MHz 64E</li>
+                                <li><i class="fas fa-database detail-icon"></i> 1,440 trazos registrados y etiquetados</li>
+                                <li><i class="fas fa-shield-alt detail-icon"></i> Protocolo de seguridad y trazabilidad de muestras</li>
+                            </ul>
+                            <div class="resource-block">
+                                <span class="resource-label"><i class="fas fa-download"></i> Descargas y Publicaciones</span>
+                                <a href="docs/exp-protocolo.pdf" class="res-btn pdf"><i class="fas fa-file-pdf"></i> Protocolo Experimental</a>
+                                <a href="https://doi.org/10.xxxx/exp-methods" class="res-btn pub" target="_blank"><i class="fas fa-external-link-alt"></i> Materiales & Methods</a>
+                                <a href="docs/exp-diagrama.png" class="res-btn graphic" target="_blank"><i class="fas fa-cogs"></i> Abstract Gráfico</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ETAPA 5: ANÁLISIS DE DATOS -->
+            <article class="stage-card" id="analisis">
+                <div class="stage-header" onclick="openStage('analisis')">
+                    <h3 class="stage-title"><span class="stage-icon">5</span> Análisis de Datos (Interpretar resultados)</h3>
+                    <i class="fas fa-chevron-down stage-toggle"></i>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-content">
+                        <div class="stage-image">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="image-caption">Visualizaciones clave del análisis estadístico</div>
+                        </div>
+                        <div>
+                            <p class="stage-desc">Preprocesamiento de señales (filtrado wavelet, normalización). Aplicación de ANOVA bidireccional, análisis de componentes principales (PCA) y validación cruzada de modelos predictivos.</p>
+                            <ul class="stage-details">
+                                <li><i class="fas fa-code detail-icon"></i> Pipeline en Python: pandas, scikit-learn, scipy</li>
+                                <li><i class="fas fa-percentage detail-icon"></i> R² ajustado: 0.87, p-valor: 0.0012</li>
+                                <li><i class="fas fa-exclamation-triangle detail-icon"></i> Detección y tratamiento de outliers (Método IQR)</li>
+                            </ul>
+                            <div class="resource-block">
+                                <span class="resource-label"><i class="fas fa-download"></i> Descargas y Publicaciones</span>
+                                <a href="docs/ana-reporte-stats.pdf" class="res-btn pdf"><i class="fas fa-file-pdf"></i> Reporte Estadístico</a>
+                                <a href="https://doi.org/10.xxxx/ana-results" class="res-btn pub" target="_blank"><i class="fas fa-external-link-alt"></i> Resultados Preliminares</a>
+                                <a href="docs/ana-graficas.png" class="res-btn graphic" target="_blank"><i class="fas fa-chart-pie"></i> Abstract Gráfico</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ETAPA 6: CONCLUSIÓN -->
+            <article class="stage-card" id="conclusion">
+                <div class="stage-header" onclick="openStage('conclusion')">
+                    <h3 class="stage-title"><span class="stage-icon">6</span> Conclusión (Confirmar/Refutar y Compartir)</h3>
+                    <i class="fas fa-chevron-down stage-toggle"></i>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-content">
+                        <div class="stage-image">
+                            <i class="fas fa-check-double"></i>
+                            <div class="image-caption">Síntesis de hallazgos y líneas futuras</div>
+                        </div>
+                        <div>
+                            <p class="stage-desc">La hipótesis alternativa es aceptada. Se confirma la correlación entre microestructura y atenuación. Se publican datos abiertos, se prepara artículo final y se proponen nuevas líneas para escalado industrial.</p>
+                            <ul class="stage-details">
+                                <li><i class="fas fa-check detail-icon"></i> H₁ confirmada con 95% de confianza</li>
+                                <li><i class="fas fa-globe detail-icon"></i> Dataset publicado en Zenodo (DOI: 10.5281/zenodo.xxxx)</li>
+                                <li><i class="fas fa-users detail-icon"></i> Presentación en Congreso Internacional NDT 2025</li>
+                            </ul>
+                            <div class="resource-block">
+                                <span class="resource-label"><i class="fas fa-download"></i> Descargas y Publicaciones</span>
+                                <a href="docs/conc-reporte-final.pdf" class="res-btn pdf"><i class="fas fa-file-pdf"></i> Tesis / Reporte Final</a>
+                                <a href="https://doi.org/10.xxxx/conc-final" class="res-btn pub" target="_blank"><i class="fas fa-external-link-alt"></i> Artículo Principal</a>
+                                <a href="docs/conc-abstract-final.png" class="res-btn graphic" target="_blank"><i class="fas fa-image"></i> Abstract Gráfico Final</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <div class="text-center" style="margin-top: 3rem;">
+                <p style="color: var(--gray); margin-bottom: 1rem;"><i class="fas fa-info-circle"></i> ¿Interesado en colaborar, acceder a los datos abiertos o replicar el experimento?</p>
+                <a href="index.html#contacto" class="btn btn-outline"><i class="fas fa-envelope"></i> Contactar al Investigador</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Dr. Aguilera</h4>
+                    <p style="color:var(--gray); line-height:1.6;">Investigación básica con impacto aplicado. Todos los materiales están licenciados bajo CC BY-NC-SA 4.0 salvo indicación contraria.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navegación</h4>
+                    <ul class="footer-links">
+                        <li><a href="#observacion">Observación</a></li>
+                        <li><a href="#problema">Problema</a></li>
+                        <li><a href="#hipotesis">Hipótesis</a></li>
+                        <li><a href="#experimentacion">Experimentación</a></li>
+                        <li><a href="#analisis">Análisis</a></li>
+                        <li><a href="#conclusion">Conclusión</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes y Académico</h4>
+                    <div class="social-links">
+                        <a href="#" title="ORCID"><i class="fab fa-orcid"></i></a>
+                        <a href="#" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
+                        <a href="#" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                        <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="year"></span> Dr. [Tu Nombre]. Investigación financiada por [Entidad]. Última actualización: Abril 2024.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== MENÚ MÓVIL =====
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileToggle.innerHTML = navMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // ===== ACORDEÓN ETAPAS =====
+        function openStage(id) {
+            const stage = document.getElementById(id);
+            const body = stage.querySelector('.stage-body');
+            const isActive = stage.classList.contains('active');
+            
+            // Cerrar todas
+            document.querySelectorAll('.stage-card').forEach(s => {
+                s.classList.remove('active');
+                s.querySelector('.stage-body').style.maxHeight = null;
+            });
+            
+            // Abrir la seleccionada si estaba cerrada
+            if (!isActive) {
+                stage.classList.add('active');
+                // Pequeño delay para que el browser calcule scrollHeight correctamente
+                requestAnimationFrame(() => {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                });
+                updateStepNav(id);
+            }
+        }
+
+        // ===== SINCRONIZAR INDICADOR DE PROGRESO =====
+        function updateStepNav(activeId) {
+            document.querySelectorAll('.step-dot').forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-target') === activeId) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Click en dots del progreso
+        document.querySelectorAll('.step-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                const targetId = dot.getAttribute('data-target');
+                if (document.getElementById(targetId).classList.contains('active')) return;
+                openStage(targetId);
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+
+        // ===== INICIALIZACIÓN =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Abrir primera etapa por defecto
+            setTimeout(() => {
+                const firstBody = document.querySelector('.stage-card.active .stage-body');
+                if (firstBody) firstBody.style.maxHeight = firstBody.scrollHeight + "px";
+            }, 100);
+
+            // Año dinámico
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Animación de entrada suave
+            document.querySelectorAll('.stage-card').forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, i * 100);
+            });
+        });
+    </script>
+</body>
+</html>
