@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agenda académica y profesional calendarizada 2026-2027. Eventos, cursos, congresos y fechas clave.">
+    <title>Agenda 2026-2027 | [Tu Nombre]</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIABLES & BASE (Consistentes con tu sitio principal) ===== */
+        :root {
+            --primary: #1e3a5f; --primary-dark: #152a45; --secondary: #2c7a7b;
+            --accent: #3182ce; --light: #f8fafc; --gray: #64748b; --dark: #0f172a;
+            --white: #ffffff; --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1); --radius: 8px;
+            --transition: all 0.3s ease;
+            --event-curso: #2563eb;    /* Azul */
+            --event-congreso: #10b981; /* Verde */
+            --event-visita: #f59e0b;   /* Naranja */
+            --event-importante: #ef4444; /* Rojo */
+            --event-bg-curso: #dbeafe;
+            --event-bg-congreso: #d1fae5;
+            --event-bg-visita: #fef3c7;
+            --event-bg-importante: #fee2e2;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); scroll-behavior: smooth; }
+        h1,h2,h3,h4 { font-family: 'Merriweather', serif; color: var(--primary); line-height: 1.3; }
+        a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+        a:hover { color: var(--primary); text-decoration: underline; }
+        img { max-width: 100%; height: auto; border-radius: var(--radius); }
+        .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; } /* Más ancho para calendario */
+        .btn { display: inline-block; background: var(--primary); color: var(--white); padding: 0.6rem 1.2rem; border-radius: var(--radius); font-weight: 500; border: none; cursor: pointer; transition: var(--transition); }
+        .btn:hover { background: var(--primary-dark); color: var(--white); text-decoration: none; }
+        .section { padding: 4rem 0; } .section-alt { background: var(--white); }
+        .text-center { text-align: center; } .hidden { display: none; }
+
+        /* ===== HEADER ===== */
+        header { background: var(--white); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+        .logo { font-family: 'Merriweather', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .logo span { color: var(--secondary); }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { font-weight: 500; color: var(--dark); padding: 0.5rem 0; position: relative; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: var(--transition); }
+        nav a:hover::after { width: 100%; }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+        /* ===== CALENDAR CONTROLS ===== */
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+        .calendar-title { font-size: 2rem; }
+        .calendar-nav { display: flex; gap: 0.5rem; align-items: center; }
+        .nav-btn { background: var(--white); border: 1px solid #e2e8f0; padding: 0.5rem; border-radius: var(--radius); cursor: pointer; transition: var(--transition); color: var(--primary); }
+        .nav-btn:hover { background: var(--primary); color: var(--white); }
+        .nav-select { padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius); font-family: inherit; background: var(--white); color: var(--dark); }
+
+        /* ===== CALENDAR GRID ===== */
+        .calendar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            background: var(--white); 
+            border: 1px solid #e2e8f0; 
+            border-radius: var(--radius); 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+        }
+        .cal-day-header { background: var(--primary); color: var(--white); padding: 0.75rem; text-align: center; font-weight: 600; font-size: 0.9rem; }
+        .cal-day { 
+            min-height: 120px; 
+            border-bottom: 1px solid #e2e8f0; 
+            border-right: 1px solid #e2e8f0; 
+            padding: 0.4rem; 
+            background: var(--white); 
+            transition: var(--transition); 
+            position: relative;
+        }
+        .cal-day:nth-child(7n) { border-right: none; }
+        .cal-day.empty { background: #f8fafc; }
+        .cal-day:hover:not(.empty) { background: #f1f5f9; }
+        
+        .day-number { 
+            font-weight: 600; 
+            color: var(--gray); 
+            font-size: 0.85rem; 
+            margin-bottom: 0.3rem; 
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+        }
+        .day-number.today { color: var(--white); background: var(--accent); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+
+        /* ===== EVENTS INSIDE CALENDAR ===== */
+        .event-chip {
+            display: block;
+            padding: 0.25rem 0.4rem;
+            margin-bottom: 0.2rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: transform 0.2s;
+        }
+        .event-chip:hover { transform: translateX(2px); z-index: 10; position: relative; }
+        
+        .event-chip.curso { background: var(--event-bg-curso); color: var(--event-curso); border-left-color: var(--event-curso); }
+        .event-chip.congreso { background: var(--event-bg-congreso); color: var(--event-congreso); border-left-color: var(--event-congreso); }
+        .event-chip.visita { background: var(--event-bg-visita); color: var(--event-visita); border-left-color: var(--event-visita); }
+        .event-chip.importante { background: var(--event-bg-importante); color: var(--event-importante); border-left-color: var(--event-importante); }
+
+        .event-more { 
+            font-size: 0.7rem; 
+            color: var(--gray); 
+            text-align: right; 
+            margin-top: 0.1rem; 
+            cursor: pointer; 
+        }
+        .event-more:hover { color: var(--accent); text-decoration: underline; }
+
+        /* ===== LEGEND ===== */
+        .legend { display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--dark); }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .cal-day { min-height: 100px; padding: 0.2rem; }
+            .event-chip { font-size: 0.65rem; padding: 0.15rem 0.3rem; }
+            .day-number { font-size: 0.75rem; }
+        }
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            nav ul { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: var(--white); flex-direction: column; padding: 2rem; transition: var(--transition); box-shadow: var(--shadow-lg); }
+            nav ul.active { left: 0; }
+            
+            /* Vista móvil: Lista vertical en lugar de grid */
+            .calendar-grid { display: flex; flex-direction: column; }
+            .cal-day-header { display: none; }
+            .cal-day { 
+                border: none; 
+                border-bottom: 1px solid #e2e8f0; 
+                min-height: auto; 
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .cal-day.empty { display: none; }
+            .day-number { font-size: 1.1rem; color: var(--primary); border-bottom: 1px dashed #cbd5e1; padding-bottom: 0.3rem; margin-bottom: 0.5rem; }
+            .day-number.today { background: none; color: var(--accent); width: auto; height: auto; display: inline; border-radius: 0; }
+            .day-number.today::after { content: '(Hoy)'; font-size: 0.7rem; color: var(--accent); margin-left: 0.5rem; }
+            
+            .event-chip { 
+                font-size: 0.9rem; 
+                padding: 0.5rem; 
+                margin-bottom: 0.5rem; 
+                white-space: normal; 
+                border-left-width: 4px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .event-chip span { display: none; } /* Ocultar hora en móvil si es necesario */
+            .event-chip .event-icon { display: inline; margin-right: 0.5rem; }
+        }
+
+        /* ===== FOOTER ===== */
+        footer { background: var(--white); padding: 3rem 0 1.5rem; margin-top: 3rem; border-top: 1px solid #e2e8f0; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-section h4 { color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a { color: var(--gray); }
+        .footer-links a:hover { color: var(--accent); text-decoration: none; }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1rem; }
+        .social-links a { width: 40px; height: 40px; border-radius: 50%; background: var(--light); display: flex; align-items: center; justify-content: center; color: var(--primary); border: 1px solid #e2e8f0; transition: var(--transition); }
+        .social-links a:hover { background: var(--accent); color: white; transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
+        .copyright { text-align: center; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; color: var(--gray); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Dr. <span>[Tu Apellido]</span></a>
+            <div class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></div>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="#" class="active">Agenda</a></li>
+                    <li><a href="index.html#publicaciones">Publicaciones</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CALENDAR SECTION -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 2rem;">
+                <h1>Agenda Académica 2026-2027</h1>
+                <p style="color: var(--gray);">Programación de actividades, congresos, cursos y fechas clave.</p>
+            </div>
+
+            <!-- Controles -->
+            <div class="calendar-header">
+                <h2 id="monthYearDisplay" class="calendar-title">Enero 2026</h2>
+                <div class="calendar-nav">
+                    <button class="nav-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <select id="monthSelect" class="nav-select">
+                        <option value="0">Enero</option><option value="1">Febrero</option>
+                        <option value="2">Marzo</option><option value="3">Abril</option>
+                        <option value="4">Mayo</option><option value="5">Junio</option>
+                        <option value="6">Julio</option><option value="7">Agosto</option>
+                        <option value="8">Septiembre</option><option value="9">Octubre</option>
+                        <option value="10">Noviembre</option><option value="11">Diciembre</option>
+                    </select>
+                    <select id="yearSelect" class="nav-select">
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                    <button class="nav-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                    <button class="nav-btn" id="todayBtn" title="Ir a hoy"><i class="fas fa-calendar-day"></i></button>
+                </div>
+            </div>
+
+            <!-- Grid del Calendario -->
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Generado dinámicamente con JS -->
+            </div>
+
+            <!-- Leyenda -->
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background: var(--event-curso);"></div> Cursos y Talleres</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--event-congreso);"></div> Congresos y Conferencias</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--event-visita);"></div> Visitas Industriales/Lab</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--event-importante);"></div> Días Importantes/Entregas</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Dr. [Tu Apellido]</h4>
+                    <p style="color:var(--gray); line-height:1.6;">Investigación y docencia de alto nivel. Mantente al día con las próximas actividades públicas.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Página Principal</a></li>
+                        <li><a href="index.html#cv">Descargar CV</a></li>
+                        <li><a href="index.html#contacto">Solicitar Charla</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-orcid"></i></a>
+                        <a href="#"><i class="fab fa-researchgate"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="year"></span> Dr. [Tu Nombre]. Agenda actualizada en tiempo real.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== DATOS DE EVENTOS (BASE DE DATOS SIMULADA) =====
+        // Formato: 'YYYY-MM-DD': [{ titulo, tipo, hora }]
+        // Tipos: 'curso', 'congreso', 'visita', 'importante'
+        
+        const eventsData = {
+            // --- 2026 ---
+            '2026-02-15': [
+                { titulo: 'Inicio Curso END Nivel II', tipo: 'curso', hora: '09:00' }
+            ],
+            '2026-03-10': [
+                { titulo: 'Conferencia ASM Int.', tipo: 'congreso', hora: '11:00' }
+            ],
+            '2026-04-20': [
+                { titulo: 'Visita Planta Nuclear', tipo: 'visita', hora: '08:00' }
+            ],
+            '2026-05-05': [
+                { titulo: 'Entrega Reporte SNI', tipo: 'importante', hora: '23:59' }
+            ],
+            '2026-05-20': [
+                { titulo: 'Congreso Metalurgia', tipo: 'congreso', hora: '09:00' }
+            ],
+            '2026-07-12': [
+                { titulo: 'Taller Python Científico', tipo: 'curso', hora: '10:00' }
+            ],
+            '2026-09-01': [
+                { titulo: 'Inicio Semestre 2026-2', tipo: 'importante', hora: '07:00' },
+                { titulo: 'Visita Lab. Materiales', tipo: 'visita', hora: '12:00' }
+            ],
+            '2026-10-15': [
+                { titulo: 'Defensa Tesis Doctoral', tipo: 'importante', hora: '16:00' }
+            ],
+            '2026-11-20': [
+                { titulo: 'Simposio NDT Avanzado', tipo: 'congreso', hora: '09:00' }
+            ],
+            '2026-12-15': [
+                { titulo: 'Cierre de Proyectos', tipo: 'importante', hora: '18:00' }
+            ],
+
+            // --- 2027 ---
+            '2027-01-15': [
+                { titulo: 'Curso Ultrasonido Phased', tipo: 'curso', hora: '09:00' }
+            ],
+            '2027-02-20': [
+                { titulo: 'Visita Industria Aeroespacial', tipo: 'visita', hora: '10:00' }
+            ],
+            '2027-03-08': [
+                { titulo: 'Congreso Internacional AI', tipo: 'congreso', hora: '08:30' }
+            ],
+            '2027-04-10': [
+                { titulo: 'Publicación Paper Q1', tipo: 'importante', hora: '00:00' }
+            ],
+            '2027-05-15': [
+                { titulo: 'Taller Corrosión Marina', tipo: 'curso', hora: '09:00' }
+            ],
+            '2027-06-20': [
+                { titulo: 'Evaluación PRODEP', tipo: 'importante', hora: '14:00' }
+            ],
+            '2027-08-01': [
+                { titulo: 'Inicio Semestre 2027-1', tipo: 'importante', hora: '07:00' }
+            ],
+            '2027-09-12': [
+                { titulo: 'Visita CERN (Virtual)', tipo: 'visita', hora: '11:00' }
+            ],
+            '2027-10-25': [
+                { titulo: 'Conferencia Keynote', tipo: 'congreso', hora: '15:00' }
+            ],
+            '2027-11-30': [
+                { titulo: 'Fin de Ciclo Escolar', tipo: 'importante', hora: '18:00' }
+            ]
+        };
+
+        // Variables de estado
+        let currentMonth = new Date().getMonth(); // Mes actual
+        let currentYear = new Date().getFullYear(); // Año actual
+        
+        // Elementos del DOM
+        const calendarGrid = document.getElementById('calendarGrid');
+        const monthYearDisplay = document.getElementById('monthYearDisplay');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const todayBtn = document.getElementById('todayBtn');
+        const monthSelect = document.getElementById('monthSelect');
+        const yearSelect = document.getElementById('yearSelect');
+
+        const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+        const monthsNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        // Función principal para renderizar
+        function renderCalendar() {
+            calendarGrid.innerHTML = '';
+            
+            // Actualizar UI
+            monthYearDisplay.textContent = `${monthsNames[currentMonth]} ${currentYear}`;
+            monthSelect.value = currentMonth;
+            yearSelect.value = currentYear;
+
+            // Headers de días
+            daysOfWeek.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'cal-day-header';
+                header.textContent = day;
+                calendarGrid.appendChild(header);
+            });
+
+            // Cálculos de fechas
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay(); // Día de la semana del 1ro
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Total días en mes
+            
+            // Fecha de hoy para resaltar
+            const today = new Date();
+            const isCurrentMonth = (today.getMonth() === currentMonth && today.getFullYear() === currentYear);
+
+            // Días vacíos previos
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'cal-day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Días del mes
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'cal-day';
+
+                // Número del día
+                const dayNum = document.createElement('div');
+                dayNum.className = `day-number ${isCurrentMonth && day === today.getDate() ? 'today' : ''}`;
+                dayNum.textContent = day;
+                dayCell.appendChild(dayNum);
+
+                // Buscar eventos
+                const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const events = eventsData[dateKey] || [];
+
+                events.forEach(evt => {
+                    const chip = document.createElement('div');
+                    chip.className = `event-chip ${evt.tipo}`;
+                    // En móvil mostramos ícono, en desktop nombre
+                    chip.innerHTML = `<i class="fas fa-${getIconForType(evt.tipo)} event-icon"></i> ${evt.titulo}`;
+                    chip.title = `${evt.titulo}\nHora: ${evt.hora}`; // Tooltip nativo
+                    chip.onclick = () => alert(`Evento: ${evt.titulo}\nHora: ${evt.hora}\nTipo: ${evt.tipo.toUpperCase()}`);
+                    dayCell.appendChild(chip);
+                });
+
+                // Si hay más de 3 eventos, mostrar "+X más"
+                if (events.length > 3) {
+                    const more = document.createElement('div');
+                    more.className = 'event-more';
+                    more.textContent = `+${events.length - 3} más`;
+                    dayCell.appendChild(more);
+                }
+
+                calendarGrid.appendChild(dayCell);
+            }
+        }
+
+        // Helper para íconos
+        function getIconForType(type) {
+            switch(type) {
+                case 'curso': return 'graduation-cap';
+                case 'congreso': return 'users';
+                case 'visita': return 'bus';
+                case 'importante': return 'flag';
+                default: return 'calendar';
+            }
+        }
+
+        // Event Listeners
+        prevBtn.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        });
+
+        todayBtn.addEventListener('click', () => {
+            const today = new Date();
+            currentMonth = today.getMonth();
+            currentYear = today.getFullYear();
+            renderCalendar();
+        });
+
+        monthSelect.addEventListener('change', (e) => {
+            currentMonth = parseInt(e.target.value);
+            renderCalendar();
+        });
+
+        yearSelect.addEventListener('change', (e) => {
+            currentYear = parseInt(e.target.value);
+            renderCalendar();
+        });
+
+        // Menú móvil
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileToggle.innerHTML = navMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCalendar();
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+
+    </script>
+</body>
+</html>
